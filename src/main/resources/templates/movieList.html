@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Database</title>
+</head>
+<body>
+    <h1>Movie Database</h1>
+    <div th:each="movie : ${movies}">
+        <div>
+            <h2 th:text="${movie.name != null ? movie.name : 'No Name'}"></h2>
+            <p>Release Year: <span th:text="${movie.releaseYear}"></span></p>
+            <p>Director: <span th:text="${movie.director}"></span></p>
+            <p>Average Rating: <span th:text="${movie.averageRating}"></span></p>
+            <p>Reviews:</p>
+            <ul>
+                <li th:each="review : ${movie.reviews}" th:text="${review}"></li>
+            </ul>
+            <form th:action="@{/addRating}" method="post">
+                <input type="hidden" name="movieId" th:value="${movie.id}">
+                <label for="rating">Add Rating:</label>
+                <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" required>
+                <button type="submit">Add Rating</button>
+            </form>
+            <form th:action="@{/addReview}" method="post">
+                <input type="hidden" name="movieId" th:value="${movie.id}">
+                <label for="review">Add Review:</label>
+                <textarea id="review" name="review" required></textarea>
+                <button type="submit">Add Review</button>
+            </form>
+        </div>
+        <hr>
+    </div>
+</body>
+</html>
